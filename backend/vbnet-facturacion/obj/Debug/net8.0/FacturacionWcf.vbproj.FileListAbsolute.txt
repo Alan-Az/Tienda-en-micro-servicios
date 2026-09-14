@@ -1,0 +1,7 @@
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.vbproj.AssemblyReference.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\rpswa.dswa.cache.json
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.GeneratedMSBuildEditorConfig.editorconfig
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.AssemblyInfoInputs.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.AssemblyInfo.vb
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.vbproj.CoreCompileInputs.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net8.0\FacturacionWcf.MvcApplicationPartsAssemblyInfo.cache

@@ -1,0 +1,12 @@
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\bin\Debug\net10.0\FacturacionWcf.deps.json
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\bin\Debug\net10.0\FacturacionWcf.dll
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\bin\Debug\net10.0\FacturacionWcf.pdb
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.vbproj.AssemblyReference.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.GeneratedMSBuildEditorConfig.editorconfig
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.AssemblyInfoInputs.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.AssemblyInfo.vb
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.vbproj.CoreCompileInputs.cache
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.dll
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\refint\FacturacionWcf.dll
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\FacturacionWcf.pdb
+c:\Dev\Rriojas\servicios web\backend\vbnet-facturacion\obj\Debug\net10.0\ref\FacturacionWcf.dll

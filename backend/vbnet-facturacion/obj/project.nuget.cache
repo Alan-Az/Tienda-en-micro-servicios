@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "dgSpecHash": "C+yypFBDuVI=",
+  "success": true,
+  "projectFilePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\1gren\\.nuget\\packages\\microsoft.extensions.objectpool\\8.0.10\\microsoft.extensions.objectpool.8.0.10.nupkg.sha512",
+    "C:\\Users\\1gren\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512",
+    "C:\\Users\\1gren\\.nuget\\packages\\system.security.cryptography.xml\\8.0.2\\system.security.cryptography.xml.8.0.2.nupkg.sha512",
+    "C:\\Users\\1gren\\.nuget\\packages\\system.servicemodel.primitives\\8.1.1\\system.servicemodel.primitives.8.1.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-23rf-6693-g89p",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-37gx-xxp4-5rgx",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-6588-8gv4-xfgh",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-8q5v-6pqq-x66h",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-cvvh-rhrc-wg4q",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-g8r8-53c2-pm3f",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-mmjf-rqrv-855v",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "El paquete \"System.Security.Cryptography.Xml\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-w3x6-4m5h-cxqf",
+      "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "warningLevel": 1,
+      "filePath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+      "libraryId": "System.Security.Cryptography.Xml",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

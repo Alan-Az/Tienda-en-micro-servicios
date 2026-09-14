@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal Web Unificado ERP Retail Distribuido - Orquestación de microservicios REST y SOAP en C#, VB.NET, Java, PHP, Python y Node.js.">
+  <title>ERP Retail Distribuido | Portal Web Unificado</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- Barra Superior de Estado de Microservicios -->
+  <aside class="services-status-bar">
+    <div style="font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">
+      <span>Topología de Servicios:</span>
+    </div>
+    <div class="status-pills">
+      <div class="service-pill" title="ASP.NET Core REST en IIS">
+        <span class="status-dot"></span>
+        <span>C# Inventario :5084</span>
+      </div>
+      <div class="service-pill" title="WCF SOAP en IIS con WS-Security">
+        <span class="status-dot soap"></span>
+        <span>VB.NET Facturación :80 (SOAP)</span>
+      </div>
+      <div class="service-pill" title="JAX-WS SOAP en Docker">
+        <span class="status-dot soap"></span>
+        <span>Java Pagos :8081 (SOAP)</span>
+      </div>
+      <div class="service-pill" title="Laravel 11 REST & JWT en Docker">
+        <span class="status-dot"></span>
+        <span>PHP Clientes :8000</span>
+      </div>
+      <div class="service-pill" title="FastAPI & MongoDB en Docker">
+        <span class="status-dot"></span>
+        <span>Python Analítica :8001</span>
+      </div>
+      <div class="service-pill" title="Express.js en Docker">
+        <span class="status-dot"></span>
+        <span>Node.js Notificaciones :3000</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar Principal -->
+  <header>
+    <nav class="navbar">
+      <a href="#" class="brand">
+        <div class="brand-icon">⚡</div>
+        <span>ERP RETAIL DISTRIBUIDO</span>
+      </a>
+
+      <ul class="nav-links">
+        <li>
+          <button class="nav-btn active" data-view="catalog">
+            <span>🛒</span> Tienda & Catálogo
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-view="admin">
+            <span>📦</span> Admin Inventario (C#)
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-view="analytics">
+            <span>📊</span> Analítica BI (Python)
+          </button>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <select id="branch-select" class="form-select" style="width: auto; padding: 0.45rem 0.8rem; font-size: 0.85rem;">
+          <option value="1">Sucursal 1 - Central</option>
+          <option value="2">Sucursal 2 - Norte</option>
+        </select>
+
+        <button id="cart-btn" class="btn btn-secondary">
+          <span>🛍️</span>
+          <span>Carrito</span>
+          <span id="cart-count" class="stock-badge" style="display: none; background: var(--accent-blue); color: #fff;">0</span>
+        </button>
+
+        <button id="user-btn" class="btn btn-secondary">
+          <span>👤</span> Iniciar Sesión
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Contenedor de Vistas Dinámicas -->
+  <main class="main-container">
+
+    <!-- Vista 1: Catálogo y Tienda -->
+    <section id="view-catalog" class="view-section active">
+      <div class="hero">
+        <div>
+          <h1 class="hero-title">Catálogo Multitienda en Tiempo Real</h1>
+          <p class="hero-subtitle">Productos sincronizados vía RESTful desde el servicio C# .NET 10 y SQL Server.</p>
+        </div>
+      </div>
+      <div id="catalog-container" class="catalog-grid"></div>
+    </section>
+
+    <!-- Vista 2: Panel Administrativo de Inventario -->
+    <section id="view-admin" class="view-section">
+      <div class="hero">
+        <div>
+          <h2 class="hero-title">Gestión Corporativa de Inventario</h2>
+          <p class="hero-subtitle">Operaciones CRUD directas sobre el microservicio propietario C# .NET 10 (Puerto 5084).</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Ubicación</th>
+                <th>Existencias</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="admin-inventory-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="product-card">
+          <h3 style="margin-bottom: 1rem; font-size: 1.15rem;">Dar de Alta Producto</h3>
+          <form id="new-product-form">
+            <div class="form-group">
+              <label class="form-label">Nombre del Producto</label>
+              <input type="text" id="prod-nombre" class="form-input" placeholder="Ej: Mouse Ergonómico Inalámbrico" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Código SKU</label>
+              <input type="text" id="prod-sku" class="form-input" placeholder="MOU-ERG-004" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Precio Unitario ($ USD)</label>
+              <input type="number" step="0.01" id="prod-precio" class="form-input" placeholder="45.90" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Registrar en SQL Server</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vista 3: Dashboard de Analítica BI -->
+    <section id="view-analytics" class="view-section">
+      <div class="hero">
+        <div>
+          <h2 class="hero-title">Business Intelligence & Pronóstico de Demanda</h2>
+          <p class="hero-subtitle">Motor predictivo en Python 3.12 (FastAPI) analizando transacciones almacenadas en MongoDB 6.0.</p>
+        </div>
+      </div>
+      <div id="analytics-cards-container" class="catalog-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Carrito de Compras -->
+  <div id="cart-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><span>🛍️</span> Carrito de Compras</div>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="cart-items-list" style="margin-bottom: 1.5rem;"></div>
+      <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem; color:var(--text-secondary);">
+          <span>Subtotal:</span>
+          <span id="cart-subtotal">$0.00</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem; color:var(--text-secondary);">
+          <span>IVA (16%):</span>
+          <span id="cart-iva">$0.00</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.15rem; color:var(--accent-emerald);">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+      </div>
+      <button id="checkout-trigger-btn" class="btn btn-primary" style="width: 100%;">Proceder a la Compra Multidistribuida</button>
+    </div>
+  </div>
+
+  <!-- Modal: Checkout Transaccional Multi-Servicio -->
+  <div id="checkout-modal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>💳</span> Orquestador de Compra (SOAP + REST)</div>
+        <button class="modal-close">&times;</button>
+      </div>
+
+      <!-- Datos de Tarjeta y Fiscales -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div class="form-group" style="grid-column: 1/-1;">
+          <label class="form-label">Número de Tarjeta de Crédito (Java SOAP)</label>
+          <input type="text" id="card-number" class="form-input" value="4532 8912 4567 8901">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input type="text" id="card-cvv" class="form-input" value="892">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Vigencia (MM/AA)</label>
+          <input type="text" id="card-exp" class="form-input" value="12/28">
+        </div>
+        <div class="form-group">
+          <label class="form-label">RFC Receptor (VB.NET SOAP)</label>
+          <input type="text" id="invoice-rfc" class="form-input" value="XAXX010101000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Razón Social</label>
+          <input type="text" id="invoice-razon" class="form-input" value="Público en General">
+        </div>
+      </div>
+
+      <!-- Stepper Interactivo -->
+      <div class="checkout-stepper">
+        <div id="step-1" class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-info">
+            <div class="step-title">Cobro Bancario (Java JAX-WS SOAP :8081)</div>
+            <div class="step-desc">Operación ProcesarCargo con sobre XML transaccional</div>
+          </div>
+        </div>
+        <div id="step-2" class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-info">
+            <div class="step-title">Timbrado Fiscal (VB.NET WCF SOAP :80)</div>
+            <div class="step-desc">Generación de CFDI con cabecera WS-Security UsernameToken</div>
+          </div>
+        </div>
+        <div id="step-3" class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-info">
+            <div class="step-title">Actualización de Inventario (C# .NET 10 REST :5084)</div>
+            <div class="step-desc">Decremento de existencias en SQL Server</div>
+          </div>
+        </div>
+        <div id="step-4" class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-info">
+            <div class="step-title">Notificación Logística (Node.js Express :3000)</div>
+            <div class="step-desc">Envío de confirmación de compra y comprobante por correo</div>
+          </div>
+        </div>
+        <div id="step-5" class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-info">
+            <div class="step-title">Registro Analítico BI (Python FastAPI :8001)</div>
+            <div class="step-desc">Ingesta de la transacción para el pronóstico en MongoDB</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="confirm-payment-btn" class="btn btn-success" style="width: 100%;">Confirmar Transacción y Pagar</button>
+    </div>
+  </div>
+
+  <!-- Modal: Visor de Factura XML Timbrada -->
+  <div id="xml-modal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 700px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>📜</span> Comprobante Fiscal Timbrado (CFDI 4.0 XML)</div>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="xml-uuid-display" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-emerald); margin-bottom: 0.75rem;"></div>
+      <div class="xml-viewer" id="xml-content"></div>
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+        <button class="btn btn-secondary modal-close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Autenticación JWT (PHP Laravel) -->
+  <div id="auth-modal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 420px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>🔐</span> Iniciar Sesión (PHP :8000)</div>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Correo Electrónico</label>
+          <input type="email" id="login-email" class="form-input" value="cliente@retail.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" id="login-pass" class="form-input" value="Password123!" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Obtener Token JWT</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor de Alertas Flotantes (Toasts) -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Script Modular ES6 -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

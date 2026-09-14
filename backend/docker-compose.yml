@@ -1,0 +1,114 @@
+version: '3.8'
+
+networks:
+  erp_network:
+    driver: bridge
+
+volumes:
+  pg_data:
+    driver: local
+  mongo_data:
+    driver: local
+
+services:
+  # Base de Datos PostgreSQL para PHP Laravel
+  postgres-db:
+    image: postgres:15
+    container_name: erp-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: erp_user
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: erp_clientes
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ../database/clientes_postgres.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - erp_network
+
+  # Base de Datos MongoDB para Python FastAPI
+  mongo-db:
+    image: mongo:6.0
+    container_name: erp-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ../database/mongo_init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - erp_network
+
+  # Microservicio PHP Laravel (Portal Clientes & Auth JWT) - Puerto 8000
+  php-laravel:
+    build:
+      context: ./php-clientes
+      dockerfile: Dockerfile
+    container_name: erp-php-clientes
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=ERP_Portal_Clientes
+      - APP_ENV=production
+      - APP_KEY=base64:sWz2Yc76qj/UjY117y51jT26i5jW1+80t27t0e2P8xU=
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_DATABASE=erp_clientes
+      - DB_USERNAME=erp_user
+      - DB_PASSWORD=rootpassword
+      - JWT_SECRET=ClaveSecretaCompartidaERPRetail2026!
+    depends_on:
+      - postgres-db
+    networks:
+      - erp_network
+
+  # Microservicio Python FastAPI (Analítica y Predicción) - Puerto 8001
+  python-fastapi:
+    build:
+      context: ./python-analitica
+      dockerfile: Dockerfile
+    container_name: erp-python-analitica
+    restart: always
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://mongo-db:27017
+      - MONGO_DB=erp_analytics
+      - JWT_SECRET=ClaveSecretaCompartidaERPRetail2026!
+    depends_on:
+      - mongo-db
+    networks:
+      - erp_network
+
+  # Microservicio Node.js Express (Notificaciones Email/SMS) - Puerto 3000
+  node-express:
+    build:
+      context: ./node-notificaciones
+      dockerfile: Dockerfile
+    container_name: erp-node-notificaciones
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SMTP_HOST=smtp.mailtrap.io
+      - SMTP_PORT=2525
+      - JWT_SECRET=ClaveSecretaCompartidaERPRetail2026!
+    networks:
+      - erp_network
+
+  # Microservicio Java 21 JAX-WS (Pagos SOAP) - Puerto 8081
+  java-soap:
+    build:
+      context: ./java-pagos
+      dockerfile: Dockerfile
+    container_name: erp-java-pagos
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - erp_network
