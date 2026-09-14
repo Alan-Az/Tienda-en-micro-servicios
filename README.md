@@ -54,7 +54,7 @@ El sistema implementa los 6 microservicios repartidos estratégicamente entre in
 ```mermaid
 flowchart TB
     subgraph CLIENT [Capa de Presentación - Frontend Web]
-        UI[Portal Web Unificado ERP\nHTML5 + Vanilla CSS + ES6 Modules\nPuerto 8080 / 5500]
+        UI[Portal Web Unificado ERP\nHTML5 + Vanilla CSS + ES6 Modules\nPuerto 8090]
     end
 
     subgraph PROPRIETARY [Ecosistema Propietario - Windows Server / IIS]
@@ -100,7 +100,7 @@ flowchart TB
 | **Portal Clientes & Auth** | Software Libre| PHP 8.2 | Laravel 11 (`tymon/jwt-auth`) | **RESTful** | `8000` | PostgreSQL 15 | Linux (Contenedor Docker) |
 | **Analítica y Predicción** | Software Libre| Python 3.12 | FastAPI / Pydantic v2 | **RESTful** | `8001` | MongoDB 6.0 | Linux (Contenedor Docker) |
 | **Notificaciones** | Software Libre| Node.js 20 | Express.js / Nodemailer | **RESTful** | `3000` | Stateless (SMTP) | Linux (Contenedor Docker) |
-| **Portal Web Unificado** | Presentación | JavaScript ES6 | Web APIs nativas (`fetch`, DOMParser) | **Cliente Mixto**| `8080` | LocalStorage | Nginx / Servidor Estático |
+| **Portal Web Unificado** | Presentación | JavaScript ES6 | Web APIs nativas (`fetch`, DOMParser) | **Cliente Mixto**| `8090` | LocalStorage | Nginx / Servidor Estático |
 
 ---
 
@@ -348,7 +348,24 @@ sequenceDiagram
 
 ---
 
-### 8.2. Paso 1: Levantar el Ecosistema Linux (Docker Compose)
+### 8.2. Scripts de Control Automatizado (.ps1 y .sh)
+
+En la carpeta principal del proyecto se incluyen scripts interactivos para arrancar y detener el ecosistema completo tanto en Windows (PowerShell) como en Linux/WSL (Bash):
+
+| Sistema Operativo | Acción | Script | Descripción |
+| :--- | :--- | :--- | :--- |
+| **Windows** | **Iniciar Backend** | [`start_backend_windows.ps1`](file:///c:/Dev/Rriojas/servicios%20web/start_backend_windows.ps1) | Pregunta por paquetes, restaura NuGet (.NET), construye Docker, levanta contenedores e inicia C# :5084. |
+| **Windows** | **Detener Backend** | [`stop_backend_windows.ps1`](file:///c:/Dev/Rriojas/servicios%20web/stop_backend_windows.ps1) | Apaga los contenedores Docker (`down`) y finaliza el proceso de C# en puerto 5084. |
+| **Windows** | **Iniciar Frontend** | [`start_frontend_windows.ps1`](file:///c:/Dev/Rriojas/servicios%20web/start_frontend_windows.ps1) | Inicia el servidor nativo en puerto `8090` y abre el navegador en `http://localhost:8090`. |
+| **Windows** | **Detener Frontend** | [`stop_frontend_windows.ps1`](file:///c:/Dev/Rriojas/servicios%20web/stop_frontend_windows.ps1) | Finaliza el servidor web y libera el puerto `8090`. |
+| **Linux / WSL** | **Iniciar Backend** | [`start_backend_linux.sh`](file:///c:/Dev/Rriojas/servicios%20web/start_backend_linux.sh) | Pregunta por dependencias y levanta el stack completo con Docker Compose. |
+| **Linux / WSL** | **Detener Backend** | [`stop_backend_linux.sh`](file:///c:/Dev/Rriojas/servicios%20web/stop_backend_linux.sh) | Apaga los contenedores Docker y detiene procesos secundarios. |
+| **Linux / WSL** | **Iniciar Frontend** | [`start_frontend_linux.sh`](file:///c:/Dev/Rriojas/servicios%20web/start_frontend_linux.sh) | Levanta servidor web en puerto `8090` y abre navegador con `xdg-open`. |
+| **Linux / WSL** | **Detener Frontend** | [`stop_frontend_linux.sh`](file:///c:/Dev/Rriojas/servicios%20web/stop_frontend_linux.sh) | Libera el puerto `8090`. |
+
+---
+
+### 8.3. Paso 1: Levantar el Ecosistema Linux (Docker Compose Manual)
 Abre una terminal en la carpeta `backend` y ejecuta:
 ```bash
 cd "c:\Dev\Rriojas\servicios web\backend"

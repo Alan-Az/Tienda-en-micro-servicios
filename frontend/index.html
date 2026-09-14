@@ -3,304 +3,405 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portal Web Unificado ERP Retail Distribuido - Orquestación de microservicios REST y SOAP en C#, VB.NET, Java, PHP, Python y Node.js.">
-  <title>ERP Retail Distribuido | Portal Web Unificado</title>
+  <title>POS Retail ERP | Punto de Venta Distribuido</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
 
-  <!-- Barra Superior de Estado de Microservicios -->
-  <aside class="services-status-bar">
-    <div style="font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">
-      <span>Topología de Servicios:</span>
+  <!-- Barra Superior Corporativa (Header) -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-title">
+        <span>ERP RETAIL POS</span>
+        <span class="brand-badge">v2.0 DISTRIBUIDO</span>
+      </div>
+
+      <nav class="header-nav">
+        <button class="nav-tab active" data-view="pos">
+          <span>🛒</span> Terminal POS <span class="shortcut-badge">F1</span>
+        </button>
+        <button class="nav-tab" data-view="catalog">
+          <span>📦</span> Catálogo de Productos <span class="shortcut-badge">F2</span>
+        </button>
+        <button class="nav-tab" data-view="inventory-matrix">
+          <span>🏢</span> Matriz Multi-Sucursal (C#) <span class="shortcut-badge">F3</span>
+        </button>
+        <button class="nav-tab" data-view="analytics-view">
+          <span>📈</span> Analítica BI (Python) <span class="shortcut-badge">F4</span>
+        </button>
+      </nav>
     </div>
-    <div class="status-pills">
-      <div class="service-pill" title="ASP.NET Core REST en IIS">
-        <span class="status-dot"></span>
-        <span>C# Inventario :5084</span>
-      </div>
-      <div class="service-pill" title="WCF SOAP en IIS con WS-Security">
-        <span class="status-dot soap"></span>
-        <span>VB.NET Facturación :80 (SOAP)</span>
-      </div>
-      <div class="service-pill" title="JAX-WS SOAP en Docker">
-        <span class="status-dot soap"></span>
-        <span>Java Pagos :8081 (SOAP)</span>
-      </div>
-      <div class="service-pill" title="Laravel 11 REST & JWT en Docker">
-        <span class="status-dot"></span>
-        <span>PHP Clientes :8000</span>
-      </div>
-      <div class="service-pill" title="FastAPI & MongoDB en Docker">
-        <span class="status-dot"></span>
-        <span>Python Analítica :8001</span>
-      </div>
-      <div class="service-pill" title="Express.js en Docker">
-        <span class="status-dot"></span>
-        <span>Node.js Notificaciones :3000</span>
-      </div>
-    </div>
-  </aside>
 
-  <!-- Navbar Principal -->
-  <header>
-    <nav class="navbar">
-      <a href="#" class="brand">
-        <div class="brand-icon">⚡</div>
-        <span>ERP RETAIL DISTRIBUIDO</span>
-      </a>
-
-      <ul class="nav-links">
-        <li>
-          <button class="nav-btn active" data-view="catalog">
-            <span>🛒</span> Tienda & Catálogo
-          </button>
-        </li>
-        <li>
-          <button class="nav-btn" data-view="admin">
-            <span>📦</span> Admin Inventario (C#)
-          </button>
-        </li>
-        <li>
-          <button class="nav-btn" data-view="analytics">
-            <span>📊</span> Analítica BI (Python)
-          </button>
-        </li>
-      </ul>
-
-      <div class="nav-actions">
-        <select id="branch-select" class="form-select" style="width: auto; padding: 0.45rem 0.8rem; font-size: 0.85rem;">
+    <div class="header-status-area">
+      <!-- Selector de Sucursal Activa Local -->
+      <div class="branch-pill">
+        <span style="color: var(--text-slate-400); font-size: 0.75rem;">TIENDA:</span>
+        <select id="branch-select" class="branch-select">
           <option value="1">Sucursal 1 - Central</option>
           <option value="2">Sucursal 2 - Norte</option>
         </select>
-
-        <button id="cart-btn" class="btn btn-secondary">
-          <span>🛍️</span>
-          <span>Carrito</span>
-          <span id="cart-count" class="stock-badge" style="display: none; background: var(--accent-blue); color: #fff;">0</span>
-        </button>
-
-        <button id="user-btn" class="btn btn-secondary">
-          <span>👤</span> Iniciar Sesión
-        </button>
       </div>
-    </nav>
+
+      <!-- Operador / Cajero Activo -->
+      <button id="user-session-btn" class="nav-tab" style="background: var(--bg-slate-100); color: var(--text-slate-900);">
+        <span style="color: var(--primary-600);">●</span>
+        <span id="user-display-name">Operador: Juan Pérez</span>
+        <span id="user-points-badge" class="origin-badge local" style="font-size: 0.7rem;">120 Pts</span>
+      </button>
+    </div>
   </header>
 
-  <!-- Contenedor de Vistas Dinámicas -->
-  <main class="main-container">
+  <!-- Vista Principal: Terminal POS (Layout Asimétrico 70% / 30%) -->
+  <main id="view-pos" class="layout-container view-panel active">
 
-    <!-- Vista 1: Catálogo y Tienda -->
-    <section id="view-catalog" class="view-section active">
-      <div class="hero">
-        <div>
-          <h1 class="hero-title">Catálogo Multitienda en Tiempo Real</h1>
-          <p class="hero-subtitle">Productos sincronizados vía RESTful desde el servicio C# .NET 10 y SQL Server.</p>
+    <!-- Panel Izquierdo: Captura de Datos (70%) -->
+    <section class="data-panel">
+
+      <!-- Buscador Omnibox con soporte de escáner de código de barras, atajos y coincidencias en vivo -->
+      <div class="omnibox-wrapper">
+        <div class="omnibox-container">
+          <div class="omnibox-icon">🔍</div>
+          <input 
+            type="text" 
+            id="omnibox-input" 
+            class="omnibox-input" 
+            placeholder="Escanear código de barras o teclear SKU / Nombre del producto... [F1]" 
+            autocomplete="off"
+            autofocus
+          />
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span class="shortcut-badge">ESC: Cerrar</span>
+            <span class="shortcut-badge">ENTER: Agregar</span>
+          </div>
         </div>
+        <!-- Dropdown flotante con coincidencias interactivas -->
+        <div id="search-dropdown" class="search-results-dropdown"></div>
       </div>
-      <div id="catalog-container" class="catalog-grid"></div>
-    </section>
 
-    <!-- Vista 2: Panel Administrativo de Inventario -->
-    <section id="view-admin" class="view-section">
-      <div class="hero">
-        <div>
-          <h2 class="hero-title">Gestión Corporativa de Inventario</h2>
-          <p class="hero-subtitle">Operaciones CRUD directas sobre el microservicio propietario C# .NET 10 (Puerto 5084).</p>
+      <!-- Tabla de Artículos en Caja (Data Grid) -->
+      <div class="table-card">
+        <div class="table-header-bar">
+          <div class="table-title">Detalle de Artículos en Transacción</div>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <span id="item-count-label" style="font-size: 0.8rem; color: var(--text-slate-500); font-family: var(--font-data);">0 Artículos</span>
+            <button id="clear-cart-btn" class="nav-tab" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: var(--danger-500);">Limpiar Lista</button>
+          </div>
         </div>
-      </div>
 
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;">
-        <div class="table-container">
-          <table class="data-table">
+        <div class="table-scroll-container">
+          <table class="pos-table">
             <thead>
               <tr>
-                <th>SKU</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Ubicación</th>
-                <th>Existencias</th>
-                <th>Acción</th>
+                <th style="width: 140px;">SKU</th>
+                <th>Descripción</th>
+                <th style="width: 190px;">Origen / Red</th>
+                <th style="width: 110px; text-align: center;">Cant.</th>
+                <th class="td-right" style="width: 130px;">P. Unitario</th>
+                <th class="td-right" style="width: 130px;">Importe</th>
+                <th style="width: 60px; text-align: center;">Acción</th>
               </tr>
             </thead>
-            <tbody id="admin-inventory-tbody"></tbody>
+            <tbody id="pos-table-tbody">
+              <!-- Renglones dinámicos inyectados por JavaScript -->
+            </tbody>
           </table>
         </div>
-
-        <div class="product-card">
-          <h3 style="margin-bottom: 1rem; font-size: 1.15rem;">Dar de Alta Producto</h3>
-          <form id="new-product-form">
-            <div class="form-group">
-              <label class="form-label">Nombre del Producto</label>
-              <input type="text" id="prod-nombre" class="form-input" placeholder="Ej: Mouse Ergonómico Inalámbrico" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Código SKU</label>
-              <input type="text" id="prod-sku" class="form-input" placeholder="MOU-ERG-004" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Precio Unitario ($ USD)</label>
-              <input type="number" step="0.01" id="prod-precio" class="form-input" placeholder="45.90" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Registrar en SQL Server</button>
-          </form>
-        </div>
       </div>
+
     </section>
 
-    <!-- Vista 3: Dashboard de Analítica BI -->
-    <section id="view-analytics" class="view-section">
-      <div class="hero">
-        <div>
-          <h2 class="hero-title">Business Intelligence & Pronóstico de Demanda</h2>
-          <p class="hero-subtitle">Motor predictivo en Python 3.12 (FastAPI) analizando transacciones almacenadas en MongoDB 6.0.</p>
+    <!-- Panel Derecho: Resumen Financiero Sticky (30%) -->
+    <aside class="sidebar-panel">
+
+      <!-- Sección de Cliente / Facturación Asociada -->
+      <div class="sidebar-section">
+        <div class="section-label">Cliente & Comprobante Fiscal</div>
+        <div class="customer-card">
+          <div class="customer-name" id="sidebar-customer-name">Juan Pérez (Público Frecuente)</div>
+          <div class="customer-meta">
+            <span>RFC: <strong id="sidebar-customer-rfc">XAXX010101000</strong></span>
+            <span>Nivel: <strong style="color: var(--primary-600);">Plata</strong></span>
+          </div>
         </div>
       </div>
-      <div id="analytics-cards-container" class="catalog-grid"></div>
-    </section>
+
+      <!-- Sección de Operación de Tienda -->
+      <div class="sidebar-section">
+        <div class="section-label">Parámetros de Operación</div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-slate-500); margin-bottom: 0.35rem;">
+          <span>Terminal POS:</span>
+          <span style="font-family: var(--font-data); font-weight: 600; color: var(--text-slate-700);">CAJA-CENTRAL-01</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-slate-500);">
+          <span>Modo Transaccional:</span>
+          <span class="origin-badge local" style="font-size: 0.7rem;">Federado En Línea</span>
+        </div>
+      </div>
+
+      <!-- Desglose Financiero -->
+      <div class="sidebar-section" style="flex: 1;">
+        <div class="section-label">Liquidación Financiera</div>
+        
+        <div class="financial-row">
+          <span>Subtotal Gravable:</span>
+          <span id="pos-subtotal" class="financial-val">$0.00</span>
+        </div>
+        <div class="financial-row">
+          <span>IVA Trasladado (16%):</span>
+          <span id="pos-iva" class="financial-val">$0.00</span>
+        </div>
+        <div class="financial-row">
+          <span>Descuento Comercial:</span>
+          <span class="financial-val" style="color: var(--success-700);">$0.00</span>
+        </div>
+
+        <!-- Gran Total XL -->
+        <div class="grand-total-box">
+          <div class="grand-total-label">Total a Liquidar (USD)</div>
+          <div id="pos-grand-total" class="grand-total-val">$0.00</div>
+        </div>
+      </div>
+
+      <!-- Botón de Acción Principal Cobrar -->
+      <div>
+        <button id="btn-trigger-checkout" class="btn-checkout-primary" disabled>
+          <span>💳</span>
+          <span>EJECUTAR COBRO</span>
+          <span class="shortcut-badge" style="background: rgba(255,255,255,0.2); color: #fff; border: none;">F12</span>
+        </button>
+        <div style="text-align: center; margin-top: 0.65rem; font-size: 0.72rem; color: var(--text-slate-400);">
+          Atajos: [F1] Buscar &bull; [F4] Cantidad &bull; [F12] Cobrar
+        </div>
+      </div>
+
+    </aside>
 
   </main>
 
-  <!-- Modal: Carrito de Compras -->
-  <div id="cart-modal" class="modal-backdrop">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title"><span>🛍️</span> Carrito de Compras</div>
-        <button class="modal-close">&times;</button>
+  <!-- Vista Secundaria: Catálogo Completo de Productos con Búsqueda y Adición Manual a la Cesta -->
+  <section id="view-catalog" class="view-panel catalog-panel">
+    <div class="catalog-header">
+      <div>
+        <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-slate-900); display: flex; align-items: center; gap: 0.5rem;">
+          <span>📦</span> Catálogo de Productos y Existencias
+        </h2>
+        <p style="font-size: 0.82rem; color: var(--text-slate-500); margin-top: 0.2rem;">
+          Explora los artículos disponibles en la red corporativa y agrégalos manualmente a la cesta de compra del POS.
+        </p>
       </div>
-      <div id="cart-items-list" style="margin-bottom: 1.5rem;"></div>
-      <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem; color:var(--text-secondary);">
-          <span>Subtotal:</span>
-          <span id="cart-subtotal">$0.00</span>
+
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <div class="omnibox-container" style="padding: 0.45rem 0.85rem; border-radius: var(--radius-md); box-shadow: none;">
+          <span style="color: var(--text-slate-400);">🔍</span>
+          <input 
+            type="text" 
+            id="catalog-search-input" 
+            class="omnibox-input" 
+            placeholder="Filtrar catálogo por SKU o nombre..." 
+            style="font-size: 0.88rem; width: 260px;"
+          />
         </div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem; color:var(--text-secondary);">
-          <span>IVA (16%):</span>
-          <span id="cart-iva">$0.00</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.15rem; color:var(--accent-emerald);">
-          <span>Total:</span>
-          <span id="cart-total">$0.00</span>
-        </div>
+        <button id="catalog-go-to-pos" class="btn-checkout-primary" style="min-height: 38px; width: auto; padding: 0 1.25rem; font-size: 0.85rem;">
+          🛒 Ver Cesta POS (<span id="catalog-cart-badge">0</span>)
+        </button>
       </div>
-      <button id="checkout-trigger-btn" class="btn btn-primary" style="width: 100%;">Proceder a la Compra Multidistribuida</button>
     </div>
-  </div>
 
-  <!-- Modal: Checkout Transaccional Multi-Servicio -->
-  <div id="checkout-modal" class="modal-backdrop">
-    <div class="modal-content" style="max-width: 650px;">
-      <div class="modal-header">
-        <div class="modal-title"><span>💳</span> Orquestador de Compra (SOAP + REST)</div>
-        <button class="modal-close">&times;</button>
-      </div>
-
-      <!-- Datos de Tarjeta y Fiscales -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-        <div class="form-group" style="grid-column: 1/-1;">
-          <label class="form-label">Número de Tarjeta de Crédito (Java SOAP)</label>
-          <input type="text" id="card-number" class="form-input" value="4532 8912 4567 8901">
-        </div>
-        <div class="form-group">
-          <label class="form-label">CVV</label>
-          <input type="text" id="card-cvv" class="form-input" value="892">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Vigencia (MM/AA)</label>
-          <input type="text" id="card-exp" class="form-input" value="12/28">
-        </div>
-        <div class="form-group">
-          <label class="form-label">RFC Receptor (VB.NET SOAP)</label>
-          <input type="text" id="invoice-rfc" class="form-input" value="XAXX010101000">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Razón Social</label>
-          <input type="text" id="invoice-razon" class="form-input" value="Público en General">
-        </div>
-      </div>
-
-      <!-- Stepper Interactivo -->
-      <div class="checkout-stepper">
-        <div id="step-1" class="step-item">
-          <div class="step-number">1</div>
-          <div class="step-info">
-            <div class="step-title">Cobro Bancario (Java JAX-WS SOAP :8081)</div>
-            <div class="step-desc">Operación ProcesarCargo con sobre XML transaccional</div>
-          </div>
-        </div>
-        <div id="step-2" class="step-item">
-          <div class="step-number">2</div>
-          <div class="step-info">
-            <div class="step-title">Timbrado Fiscal (VB.NET WCF SOAP :80)</div>
-            <div class="step-desc">Generación de CFDI con cabecera WS-Security UsernameToken</div>
-          </div>
-        </div>
-        <div id="step-3" class="step-item">
-          <div class="step-number">3</div>
-          <div class="step-info">
-            <div class="step-title">Actualización de Inventario (C# .NET 10 REST :5084)</div>
-            <div class="step-desc">Decremento de existencias en SQL Server</div>
-          </div>
-        </div>
-        <div id="step-4" class="step-item">
-          <div class="step-number">4</div>
-          <div class="step-info">
-            <div class="step-title">Notificación Logística (Node.js Express :3000)</div>
-            <div class="step-desc">Envío de confirmación de compra y comprobante por correo</div>
-          </div>
-        </div>
-        <div id="step-5" class="step-item">
-          <div class="step-number">5</div>
-          <div class="step-info">
-            <div class="step-title">Registro Analítico BI (Python FastAPI :8001)</div>
-            <div class="step-desc">Ingesta de la transacción para el pronóstico en MongoDB</div>
-          </div>
-        </div>
-      </div>
-
-      <button id="confirm-payment-btn" class="btn btn-success" style="width: 100%;">Confirmar Transacción y Pagar</button>
+    <!-- Grid de Tarjetas de Productos -->
+    <div id="catalog-products-grid" class="catalog-grid">
+      <!-- Tarjetas renderizadas dinámicamente -->
     </div>
-  </div>
+  </section>
 
-  <!-- Modal: Visor de Factura XML Timbrada -->
-  <div id="xml-modal" class="modal-backdrop">
-    <div class="modal-content" style="max-width: 700px;">
-      <div class="modal-header">
-        <div class="modal-title"><span>📜</span> Comprobante Fiscal Timbrado (CFDI 4.0 XML)</div>
-        <button class="modal-close">&times;</button>
+  <!-- Modal 1: Matriz de Inventario Multi-Sucursal (C# .NET 10) -->
+  <div id="modal-inventory-matrix" class="modal-overlay">
+    <div class="modal-dialog modal-dialog-large">
+      <div class="modal-header-row">
+        <div class="modal-title-text">
+          <span>🏢</span> Matriz de Inventario Federada (Sucursal 1 & Sucursal 2)
+        </div>
+        <button class="modal-close-icon modal-close-btn">&times;</button>
       </div>
-      <div id="xml-uuid-display" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-emerald); margin-bottom: 0.75rem;"></div>
-      <div class="xml-viewer" id="xml-content"></div>
-      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
-        <button class="btn btn-secondary modal-close">Cerrar</button>
+
+      <p style="font-size: 0.85rem; color: var(--text-slate-500); margin-bottom: 1rem;">
+        Existencias sincronizadas en tiempo real desde el microservicio C# .NET 10 (Puerto 5084) para ambas ubicaciones corporativas.
+      </p>
+
+      <div class="table-card" style="max-height: 420px; margin-bottom: 1.25rem;">
+        <table class="pos-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Descripción</th>
+              <th class="td-right">Precio</th>
+              <th class="td-right" style="color: var(--primary-600);">Stock Sucursal 1 (Central)</th>
+              <th class="td-right" style="color: var(--warning-700);">Stock Sucursal 2 (Norte)</th>
+              <th class="td-right">Total Red</th>
+              <th style="text-align: center;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-matrix-tbody">
+            <!-- Filas multi-sucursal inyectadas -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Formulario de Alta de Nuevo Producto -->
+      <div style="background: var(--bg-slate-50); border: 1px solid var(--border-slate-200); border-radius: var(--radius-md); padding: 1rem;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-slate-900); margin-bottom: 0.75rem;">
+          Registrar Nuevo Producto en Catálogo
+        </div>
+        <form id="matrix-new-product-form" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 0.75rem; align-items: end;">
+          <div>
+            <label class="field-label">Nombre</label>
+            <input type="text" id="new-prod-name" class="field-input" placeholder="Ej: Mouse Gamer Inalámbrico" required>
+          </div>
+          <div>
+            <label class="field-label">SKU</label>
+            <input type="text" id="new-prod-sku" class="field-input field-input-mono" placeholder="MOU-GAM-005" required>
+          </div>
+          <div>
+            <label class="field-label">Precio ($)</label>
+            <input type="number" step="0.01" id="new-prod-price" class="field-input field-input-mono" placeholder="49.99" required>
+          </div>
+          <button type="submit" class="btn-checkout-primary" style="min-height: 38px; padding: 0 1rem; font-size: 0.85rem;">Alta</button>
+        </form>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Autenticación JWT (PHP Laravel) -->
-  <div id="auth-modal" class="modal-backdrop">
-    <div class="modal-content" style="max-width: 420px;">
-      <div class="modal-header">
-        <div class="modal-title"><span>🔐</span> Iniciar Sesión (PHP :8000)</div>
-        <button class="modal-close">&times;</button>
+  <!-- Modal 2: Pasarela de Cobro y Checkout (Orquestación Transaccional Segura) -->
+  <div id="modal-checkout" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header-row">
+        <div class="modal-title-text">
+          <span>💳</span> Procesamiento de Cobro y Timbrado Fiscal
+        </div>
+        <button class="modal-close-icon modal-close-btn">&times;</button>
       </div>
-      <form id="login-form">
-        <div class="form-group">
-          <label class="form-label">Correo Electrónico</label>
-          <input type="email" id="login-email" class="form-input" value="cliente@retail.com" required>
+
+      <!-- Datos de Tarjeta Tokenizados / Enmascarados (Sin Datos Sensibles Expuestos) -->
+      <div style="background: var(--bg-slate-50); border: 1px solid var(--border-slate-200); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-slate-500); text-transform: uppercase;">Dispositivo de Cobro POS</span>
+          <span class="origin-badge local" style="font-size: 0.7rem;">Cifrado Seguro</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">Contraseña</label>
-          <input type="password" id="login-pass" class="form-input" value="Password123!" required>
+        
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="field-label">Número de Tarjeta (Enmascarada)</label>
+            <input type="text" id="card-mask-display" class="field-input field-input-mono" value="•••• •••• •••• 8901" readonly>
+          </div>
+          <div>
+            <label class="field-label">CVV</label>
+            <input type="password" class="field-input field-input-mono" value="•••" readonly>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Obtener Token JWT</button>
-      </form>
+      </div>
+
+      <!-- Stepper Transaccional en Vivo -->
+      <div class="stepper-list">
+        <div id="step-pos-1" class="stepper-row">
+          <div class="stepper-dot">1</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;">Autorización Bancaria (Java JAX-WS SOAP :8081)</div>
+            <div style="font-size: 0.75rem; color: var(--text-slate-400);">Operación ProcesarCargo</div>
+          </div>
+        </div>
+        <div id="step-pos-2" class="stepper-row">
+          <div class="stepper-dot">2</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;">Timbrado Fiscal SAT (VB.NET WCF SOAP :80)</div>
+            <div style="font-size: 0.75rem; color: var(--text-slate-400);">Emisión de CFDI con WS-Security</div>
+          </div>
+        </div>
+        <div id="step-pos-3" class="stepper-row">
+          <div class="stepper-dot">3</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;">Actualización de Existencias (C# .NET 10 REST :5084)</div>
+            <div style="font-size: 0.75rem; color: var(--text-slate-400);">Decremento atómico de stock</div>
+          </div>
+        </div>
+        <div id="step-pos-4" class="stepper-row">
+          <div class="stepper-dot">4</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;">Notificación al Comprador (Node.js REST :3000)</div>
+            <div style="font-size: 0.75rem; color: var(--text-slate-400);">Envío de comprobante por correo</div>
+          </div>
+        </div>
+        <div id="step-pos-5" class="stepper-row">
+          <div class="stepper-dot">5</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;">Registro de Analítica BI (Python FastAPI REST :8001)</div>
+            <div style="font-size: 0.75rem; color: var(--text-slate-400);">Ingesta para modelo predictivo NoSQL</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-confirm-transaction" class="btn-checkout-primary">
+        CONFIRMAR TRANSACCIÓN
+      </button>
     </div>
   </div>
 
-  <!-- Contenedor de Alertas Flotantes (Toasts) -->
-  <div id="toast-container" class="toast-container"></div>
+  <!-- Modal 3: Comprobante de Compra y Ticket Térmico Imprimible / PDF -->
+  <div id="modal-receipt" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header-row">
+        <div class="modal-title-text" style="color: var(--success-700);">
+          <span>✓</span> Transacción Completada y Guardada
+        </div>
+        <button class="modal-close-icon modal-close-btn">&times;</button>
+      </div>
+
+      <p style="font-size: 0.8rem; color: var(--text-slate-500); margin-bottom: 0.85rem;">
+        Datos persistidos en bases de datos (SQL Server, MongoDB y PostgreSQL). Ticket emitido con timbrado fiscal SAT y autorización bancaria.
+      </p>
+
+      <!-- Contenedor del Ticket Térmico Formato 80mm -->
+      <div class="thermal-ticket-wrapper">
+        <div id="thermal-ticket-container">
+          <!-- Ticket dinámico inyectado por renderThermalTicket() -->
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: space-between; align-items: center; margin-top: 1rem;">
+        <button class="nav-tab modal-close-btn" style="background: var(--bg-slate-100); padding: 0.5rem 1rem;">Cerrar</button>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="btn-print-pdf-ticket" class="btn-checkout-primary" style="min-height: 40px; width: auto; padding: 0 1.25rem; font-size: 0.85rem; background: var(--primary-700);">
+            🖨️ Imprimir Ticket / Guardar PDF
+          </button>
+          <button id="btn-print-receipt" class="btn-checkout-primary" style="min-height: 40px; width: auto; padding: 0 1rem; font-size: 0.85rem; background: var(--bg-slate-200); color: var(--text-slate-700);">
+            Nueva Venta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Analítica BI (Python FastAPI) -->
+  <div id="modal-analytics" class="modal-overlay">
+    <div class="modal-dialog modal-dialog-large">
+      <div class="modal-header-row">
+        <div class="modal-title-text">
+          <span>📈</span> Pronóstico de Demanda y Tendencias de Abastecimiento (BI)
+        </div>
+        <button class="modal-close-icon modal-close-btn">&times;</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-slate-500); margin-bottom: 1rem;">
+        Cálculo predictivo ejecutado por Python 3.12 (FastAPI) analizando el histórico de ventas en MongoDB 6.0.
+      </p>
+
+      <div id="analytics-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem;">
+        <!-- Tarjetas analíticas inyectadas -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de Alertas Toast -->
+  <div id="toast-outlet" class="toast-outlet"></div>
 
   <!-- Script Modular ES6 -->
   <script type="module" src="js/app.js"></script>

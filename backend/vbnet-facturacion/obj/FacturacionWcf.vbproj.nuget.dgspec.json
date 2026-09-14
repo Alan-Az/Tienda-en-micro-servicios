@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj": {}
+    "C:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj": {}
   },
   "projects": {
-    "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj": {
+    "C:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+        "projectUniqueName": "C:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
         "projectName": "FacturacionWcf",
-        "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
+        "projectPath": "C:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\FacturacionWcf.vbproj",
         "packagesPath": "C:\\Users\\1gren\\.nuget\\packages\\",
-        "outputPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\obj\\",
+        "outputPath": "C:\\Dev\\Rriojas\\servicios web\\backend\\vbnet-facturacion\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

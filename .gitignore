@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE & Editor
+.vscode/
+
+# Node
+node_modules/
+
+# .NET
+**/bin/
+**/obj/

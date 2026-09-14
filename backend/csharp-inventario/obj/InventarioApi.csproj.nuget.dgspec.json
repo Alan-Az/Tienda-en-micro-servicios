@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj": {}
+    "C:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj": {}
   },
   "projects": {
-    "c:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj": {
+    "C:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj",
+        "projectUniqueName": "C:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj",
         "projectName": "InventarioApi",
-        "projectPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj",
+        "projectPath": "C:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\InventarioApi.csproj",
         "packagesPath": "C:\\Users\\1gren\\.nuget\\packages\\",
-        "outputPath": "c:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\obj\\",
+        "outputPath": "C:\\Dev\\Rriojas\\servicios web\\backend\\csharp-inventario\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

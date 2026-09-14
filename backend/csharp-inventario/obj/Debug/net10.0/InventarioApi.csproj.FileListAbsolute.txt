@@ -74,3 +74,4 @@ c:\Dev\Rriojas\servicios web\backend\csharp-inventario\obj\Debug\net10.0\refint\
 c:\Dev\Rriojas\servicios web\backend\csharp-inventario\obj\Debug\net10.0\InventarioApi.pdb
 c:\Dev\Rriojas\servicios web\backend\csharp-inventario\obj\Debug\net10.0\InventarioApi.genruntimeconfig.cache
 c:\Dev\Rriojas\servicios web\backend\csharp-inventario\obj\Debug\net10.0\ref\InventarioApi.dll
+C:\Dev\Rriojas\servicios web\backend\csharp-inventario\obj\Debug\net10.0\InventarioApi.sourcelink.json
